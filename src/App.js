@@ -32,19 +32,26 @@ function App() {
     setIsLoading(false);
   };
 
+  let content = <p>No movies found</p>;
+
+  if (movies.length > 0) {
+    content = <MoviesList movies={movies} />
+  }
+
+  if (error) {
+    content = error;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+
   return (
     <React.Fragment>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        {!isLoading && movies.length > 0 && <MoviesList movies={movies} />}
-        {!isLoading && !movies.length && !error && (
-          <p>Movies not found. Try fetching again</p>
-        )}
-        {!isLoading && <p>{error}</p>}
-        {isLoading && <p>Loading...</p>}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
